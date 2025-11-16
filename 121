@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>长期熬夜营养支持方案图表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .main-title::after {
+            content: '🌙';
+            position: absolute;
+            left: 50%;
+            top: -15px;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+
+        /* 三栏网格布局 */
+        .supplement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 分栏容器 */
+        .category-column {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.8rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* 分栏主题色背景 */
+        .category-column:nth-child(1) {
+            background: linear-gradient(to bottom, rgba(227, 242, 253, 0.6), rgba(255, 255, 255, 0.9));
+        }
+
+        .category-column:nth-child(2) {
+            background: linear-gradient(to bottom, rgba(255, 235, 238, 0.6), rgba(255, 255, 255, 0.9));
+        }
+
+        .category-column:nth-child(3) {
+            background: linear-gradient(to bottom, rgba(255, 248, 225, 0.6), rgba(255, 255, 255, 0.9));
+        }
+
+        .category-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 分栏标题 */
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .category-icon {
+            width: 42px;
+            height: 42px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* 补充剂卡片 */
+        .supplement-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 1.4rem;
+            margin-bottom: 1.2rem;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .supplement-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-column:nth-child(1) .supplement-card {
+            border-left-color: #4A90E2;
+        }
+
+        .category-column:nth-child(2) .supplement-card {
+            border-left-color: #E74C3C;
+        }
+
+        .category-column:nth-child(3) .supplement-card {
+            border-left-color: #F39C12;
+        }
+
+        /* 补充剂名称 */
+        .supplement-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+        }
+
+        /* 剂量信息 */
+        .dosage {
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-column:nth-child(1) .dosage {
+            color: #4A90E2;
+        }
+
+        .category-column:nth-child(2) .dosage {
+            color: #E74C3C;
+        }
+
+        .category-column:nth-child(3) .dosage {
+            color: #F39C12;
+        }
+
+        .dosage::before {
+            content: '→';
+            font-weight: bold;
+        }
+
+        /* 作用描述 */
+        .effect {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 0.8rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .effect::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #a0aec0;
+        }
+
+        /* 注意事项 */
+        .warning {
+            font-size: 0.85rem;
+            color: #e53e3e;
+            padding-left: 1.2rem;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .warning::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            font-size: 0.9rem;
+        }
+
+        /* 流动引导元素 */
+        .flow-indicator {
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%);
+            z-index: 1;
+            width: 40px;
+            height: 40px;
+            opacity: 0.2;
+        }
+
+        .category-column:last-child .flow-indicator {
+            display: none;
+        }
+
+        /* 免责声明 */
+        .disclaimer {
+            background: rgba(236, 240, 241, 0.7);
+            border-left: 4px solid #7f8c8d;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #4a5568;
+            text-align: center;
+            margin-top: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .supplement-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .flow-indicator {
+                display: none;
+            }
+
+            .category-column {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-title {
+                font-size: 1.7rem;
+            }
+
+            .category-title {
+                font-size: 1.1rem;
+            }
+
+            .supplement-card {
+                padding: 1.1rem;
+            }
+            
+            body {
+                padding: 1.5rem 0.8rem;
+            }
+        }
+
+        /* 打印优化 */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .supplement-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .category-column {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+
+            .flow-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">长期熬夜的健康影响与营养支持方案</h1>
+        
+        <div class="supplement-grid">
+            <!-- 第一栏：能量代谢与线粒体功能支持 -->
+            <div class="category-column">
+                <div class="flow-indicator">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 20L30 20M30 20L22 12M30 20L22 28" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="category-header">
+                    <svg class="category-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 8L25 16H30L26 24L29 32L21 26L13 32L16 24L12 16H17L21 8Z" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="21" cy="21" r="18" stroke="#4A90E2" stroke-width="2"/>
+                    </svg>
+                    <div>
+                        <div class="category-title">一、能量代谢与线粒体功能支持</div>
+                        <div style="font-size: 0.85rem; color: #718096;">针对熬夜后疲劳、脑雾、精力不足</div>
+                    </div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">辅酶Q10</div>
+                    <div class="dosage">剂量：100–200 mg/日 | 随餐</div>
+                    <div class="effect">作用：细胞能量生产的关键辅因子</div>
+                    <div class="warning">注意：血压偏低者慎用</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">PQQ（吡咯喹啉醌）</div>
+                    <div class="dosage">剂量：10–20 mg/日 | 早晨</div>
+                    <div class="effect">作用：促进线粒体新生，提升清醒度</div>
+                    <div class="warning">注意：避免晚间服用</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">NAD+ 前体（NMN/NR）</div>
+                    <div class="dosage">剂量：125–500 mg/日 | 晨起空腹</div>
+                    <div class="effect">作用：支持细胞能量代谢，改善脑雾</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">B族维生素复合物</div>
+                    <div class="dosage">剂量：B50配方 | 早餐后</div>
+                    <div class="effect">作用：支持能量代谢与神经系统</div>
+                </div>
+            </div>
+
+            <!-- 第二栏：抗氧化与系统修复 -->
+            <div class="category-column">
+                <div class="flow-indicator">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 20L30 20M30 20L22 12M30 20L22 28" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="category-header">
+                    <svg class="category-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 6L23 10L27 10L24 13L25 17L21 15L17 17L18 13L15 10L19 10L21 6Z" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 26V21M21 21L18 24M21 21L24 24" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="21" cy="21" r="18" stroke="#E74C3C" stroke-width="2"/>
+                    </svg>
+                    <div>
+                        <div class="category-title">二、抗氧化与系统修复</div>
+                        <div style="font-size: 0.85rem; color: #718096;">针对氧化损伤、皮肤暗沉、免疫下降</div>
+                    </div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">虾青素</div>
+                    <div class="dosage">剂量：4–12 mg/日 | 餐后</div>
+                    <div class="effect">作用：强抗氧化，保护视网膜与皮肤</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">维生素C</div>
+                    <div class="dosage">剂量：500–1000 mg/日 | 分次</div>
+                    <div class="effect">作用：缓解氧化压力，支持免疫</div>
+                    <div class="warning">注意：建议随餐减少刺激</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">维生素E</div>
+                    <div class="dosage">剂量：100–200 IU/日 | 随餐</div>
+                    <div class="effect">作用：协同增强抗氧化效果</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">NAC（N-乙酰半胱氨酸）</div>
+                    <div class="dosage">剂量：600 mg/日 | 早晨/午餐前</div>
+                    <div class="effect">作用：提升谷胱甘肽，改善头昏乏力</div>
+                </div>
+            </div>
+
+            <!-- 第三栏：神经与视觉功能维护 -->
+            <div class="category-column">
+                <div class="category-header">
+                    <svg class="category-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="14" cy="20" r="4" stroke="#F39C12" stroke-width="2"/>
+                        <circle cx="28" cy="20" r="4" stroke="#F39C12" stroke-width="2"/>
+                        <path d="M21 28L17 32M21 28L25 32M21 28V22" stroke="#F39C12" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="21" cy="21" r="18" stroke="#F39C12" stroke-width="2"/>
+                        <path d="M7 21L14 16M35 21L28 16" stroke="#F39C12" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <div class="category-title">三、神经与视觉功能维护</div>
+                        <div style="font-size: 0.85rem; color: #718096;">针对眼干、脑疲劳、睡眠与情绪波动</div>
+                    </div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">叶黄素 + 玉米黄质</div>
+                    <div class="dosage">剂量：10 mg + 2 mg/日 | 午餐后</div>
+                    <div class="effect">作用：过滤蓝光，缓解视觉疲劳</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">Omega-3（EPA+DHA）</div>
+                    <div class="dosage">剂量：1000–2000 mg/日 | 随餐</div>
+                    <div class="effect">作用：抗炎、护脑、稳情绪、缓干眼</div>
+                    <div class="warning">注意：凝血功能差者慎用</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">甘氨酸镁</div>
+                    <div class="dosage">剂量：200–400 mg/日 | 睡前</div>
+                    <div class="effect">作用：神经放松，改善睡眠与焦虑</div>
+                </div>
+
+                <div class="supplement-card">
+                    <div class="supplement-name">益生菌</div>
+                    <div class="dosage">剂量：≥10⁹ CFU/日 | 空腹/睡前</div>
+                    <div class="effect">作用：调节肠道节律，稳定情绪</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            ⚠️ 本图表内容仅为营养信息参考，不构成医疗建议。服用任何补充剂前，请咨询医生或药师。个体差异存在，请根据自身情况调整。
+        </div>
+    </div>
+
+    <script>
+        // 添加交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.supplement-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // 添加点击复制功能
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const supplementName = this.querySelector('.supplement-name').textContent;
+                    const dosage = this.querySelector('.dosage').textContent;
+                    
+                    const textToCopy = `${supplementName}: ${dosage}`;
+                    
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // 创建提示元素
+                        const tooltip = document.createElement('div');
+                        tooltip.textContent = '已复制到剪贴板！';
+                        tooltip.style.cssText = `
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: rgba(44, 62, 80, 0.9);
+                            color: white;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 8px;
+                            font-size: 0.9rem;
+                            z-index: 1000;
+                            animation: fadeInOut 2s ease;
+                            backdrop-filter: blur(5px);
+                            border: 1px solid rgba(255,255,255,0.1);
+                        `;
+                        
+                        // 添加动画样式
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            @keyframes fadeInOut {
+                                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                                20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                                80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                        
+                        document.body.appendChild(tooltip);
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(tooltip);
+                        }, 2000);
+                    }).catch(err => {
+                        console.log('复制失败:', err);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
